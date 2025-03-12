@@ -136,31 +136,3 @@ final_combined_data %>%
   arrange(Year) %>%  # Ensure years are in chronological order
   as.data.frame() %>%
   print()
-
-# Check for any data quality issues
-cat("\nChecking for potential data quality issues:\n")
-
-# Check for missing values in key columns
-missing_values <- final_combined_data %>%
-  summarise(across(everything(), ~sum(is.na(.))))
-
-cat("Number of missing values by column:\n")
-print(missing_values)
-
-# Check for outliers in the rent values (example for 1 Bedroom)
-cat("\nSummary statistics for 1 Bedroom rates by year:\n")
-final_combined_data %>%
-  group_by(Year) %>%
-  summarise(
-    Min = min(`1 Bedroom`, na.rm = TRUE),
-    Q1 = quantile(`1 Bedroom`, 0.25, na.rm = TRUE),
-    Median = median(`1 Bedroom`, na.rm = TRUE),
-    Mean = mean(`1 Bedroom`, na.rm = TRUE),
-    Q3 = quantile(`1 Bedroom`, 0.75, na.rm = TRUE),
-    Max = max(`1 Bedroom`, na.rm = TRUE)
-  ) %>%
-  arrange(Year) %>%
-  as.data.frame() %>%
-  print()
-
-cat("\nCombined LHA dataset from 2010-2024 has been created and saved.\n")
